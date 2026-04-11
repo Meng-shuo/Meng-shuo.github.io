@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ms 的个人主页</title>
     <style>
-        /* 全局样式重置 */
         * {
             margin: 0;
             padding: 0;
@@ -13,14 +12,12 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        /* 页面背景 */
         body {
             background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
             color: #333;
             line-height: 1.6;
         }
 
-        /* 主容器：侧边栏 + 主内容区 */
         .container {
             display: flex;
             max-width: 1400px;
@@ -28,7 +25,6 @@
             min-height: 100vh;
         }
 
-        /* 左侧导航栏 */
         .sidebar {
             width: 280px;
             background: #e0e9f2;
@@ -36,7 +32,6 @@
             box-shadow: 2px 0 5px rgba(0,0,0,0.1);
         }
 
-        /* 侧边栏标题 */
         .sidebar .title {
             font-size: 1.5rem;
             font-weight: bold;
@@ -47,7 +42,6 @@
             border-radius: 4px;
         }
 
-        /* 导航菜单 */
         .nav-list {
             list-style: none;
             margin-bottom: 20px;
@@ -65,7 +59,6 @@
             text-decoration: none;
             border-radius: 4px;
             transition: background 0.3s;
-            font-size: 1.1rem;
             cursor: pointer;
         }
 
@@ -73,16 +66,6 @@
             background: #f0f4f8;
         }
 
-        .nav-list .badge {
-            margin-left: auto;
-            background: #ddd;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            color: #666;
-        }
-
-        /* 侧边栏个人信息卡片 */
         .profile-card {
             background: #e0e9f2;
             border-radius: 4px;
@@ -115,7 +98,7 @@
         .profile-stats {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 60px;
             margin: 15px 0;
         }
 
@@ -123,18 +106,11 @@
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #666;
-        }
-
         .stat-label {
             font-size: 0.9rem;
             color: #888;
         }
 
-        /* 鼠标悬浮提示样式 */
         .tooltip {
             position: relative;
             cursor: default;
@@ -154,7 +130,6 @@
             z-index: 10;
         }
 
-        /* 右侧主内容区 */
         .content {
             flex: 1;
             padding: 30px;
@@ -163,7 +138,6 @@
             gap: 25px;
         }
 
-        /* 文章卡片 */
         .post-card {
             background: #fff;
             padding: 30px;
@@ -191,12 +165,15 @@
             font-size: 1.2rem;
             line-height: 1.7;
             color: #444;
-            text-align: left;
         }
 
         .btn-container {
             text-align: center;
             margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .read-more {
@@ -215,14 +192,12 @@
             background: #444;
         }
 
-        /* 内容区域默认全部隐藏 */
         .page {
             display: none;
         }
+
         .page.active {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+            display: block;
         }
     </style>
 </head>
@@ -232,8 +207,8 @@
     <div class="sidebar">
         <div class="title">Ms 的个人主页</div>
         <ul class="nav-list">
-            <li><a data-href="/" class="active">🏠 首页</a></li>
-            <li><a data-href="/about">👤 关于</a></li>
+            <li><a data-page="home" class="nav-btn active">🏠 首页</a></li>
+            <li><a data-page="about" class="nav-btn">👤 关于</a></li>
         </ul>
 
         <div class="profile-card">
@@ -243,12 +218,12 @@
             <div class="profile-name">Meng Shuo</div>
             <div class="profile-stats">
                 <div class="stat-item tooltip" data-text="E-mail->2418433006@qq.com">
-                    <a href="https://mail.qq.com" target="_blank" style="text-decoration:none; color:inherit;">
+                    <a href="https://mail.qq.com" target="_blank" style="text-decoration:none;color:inherit">
                         <div class="stat-label">E-mail</div>
                     </a>
                 </div>
                 <div class="stat-item tooltip" data-text="zhihu->https://www.zhihu.com/people/ai-mi-3-64-5">
-                    <a href="https://www.zhihu.com/people/ai-mi-3-64-5" target="_blank" style="text-decoration:none; color:inherit;">
+                    <a href="https://www.zhihu.com/people/ai-mi-3-64-5" target="_blank" style="text-decoration:none;color:inherit">
                         <div class="stat-label">知乎</div>
                     </a>
                 </div>
@@ -256,43 +231,33 @@
         </div>
     </div>
 
-    <!-- 内容区域 -->
     <div class="content">
         <!-- 首页 -->
-        <div id="home" class="page active">
-            <div class="post-card">
-                <h2 class="post-title">本站介绍</h2>
-                <div class="post-meta">2026-04-11</div>
-                <div class="post-desc">
-                    A simple introduction to this web.
-                </div>
-                <div class="btn-container">
-                    <div class="read-more" data-href="/docs/intro">阅读全文</div>
-                </div>
-            </div>
+        <div id="page-home" class="page active">
+            <div id="article-list"></div>
         </div>
 
         <!-- 关于 -->
-        <div id="about" class="page">
+        <div id="page-about" class="page">
             <div class="post-card">
                 <h2 class="post-title">关于我</h2>
-                <div class="post-desc" style="text-align:center;">
-                    这里是关于我的介绍<br>
-                    你可以随便写任何内容
+                <div class="post-desc" style="text-align:center">
+                     Meng Shuo<br>
+                    专业方向：导航、遥感、图像处理相关研究<br>
                 </div>
             </div>
         </div>
 
-        <!-- 阅读全文 -->
-        <div id="docs-intro" class="page">
+        <!-- 文章详情 -->
+        <div id="page-article" class="page">
             <div class="post-card">
-                <h2 class="post-title">本站介绍 - 全文</h2>
-                <div class="post-desc">
-                    这里是文章的完整内容<br>
-                    你可以放任意长的文字
+                <h2 class="post-title" id="detail-title"></h2>
+                <div class="post-meta" id="detail-date"></div>
+                <div class="post-desc" id="detail-content"></div>
+                <div class="btn-container" id="detail-btns">
                 </div>
                 <div class="btn-container">
-                    <div class="read-more" data-href="/home">返回首页</div>
+                    <div class="read-more" data-page="home">返回首页</div>
                 </div>
             </div>
         </div>
@@ -300,23 +265,95 @@
 </div>
 
 <script>
-// 核心：点击切换页面 + 改网址不刷新
-document.querySelectorAll('[data-href]').forEach(el => {
-    el.addEventListener('click', () => {
-        const path = el.getAttribute('data-href')
-        history.pushState({}, '', path)
+// ==============================================
+//  🔥 以后所有文章 只在这里加！复制粘贴即可
+// ==============================================
+const articles = [
+    {
+        id: 1,
+        title: "本站介绍",
+        date: "2026-04-11",
+        intro: "A simple introduction for this web.",
+        content: `
+            这里是本站的完整介绍。<br><br>
+            本网站用于展示个人学习与研究成果，包括导航、遥感图像处理、组合导航等方向的笔记与文档。
+        `,
+        // 想附加文章地址就写这里，不需要就删掉整行
+        fileUrl: "docs/intro.pdf"
+    },
+    // ==========================================
+    // 👇 新增第二篇，直接复制下面这一块
+    // ==========================================
+    {
+        id: 2,
+        title: "遥感图像处理实验",
+        date: "2026-04-11",
+        intro: "几何精校正、配准、融合等实验流程整理。",
+        content: `
+            本文记录遥感图像处理完整流程：<br>
+            1. 几何精校正与GCP选取<br>
+            2. 重采样方法对比（最近邻、双线性、三次卷积）<br>
+            3. 融合效果评价
+        `,
+        fileUrl: "docs/rs_process.pdf"
+    }
+];
 
-        // 切换内容
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
-        if (path === '/') document.getElementById('home').classList.add('active')
-        if (path === '/about') document.getElementById('about').classList.add('active')
-        if (path === '/docs/intro') document.getElementById('docs-intro').classList.add('active')
+// 生成首页文章列表
+const listEl = document.getElementById("article-list");
+articles.forEach(art => {
+    listEl.innerHTML += `
+        <div class="post-card">
+            <h2 class="post-title">${art.title}</h2>
+            <div class="post-meta">${art.date}</div>
+            <div class="post-desc">${art.intro}</div>
+            <div class="btn-container">
+                <div class="read-more" data-art-id="${art.id}">阅读全文</div>
+            </div>
+        </div>
+    `;
+});
 
-        // 菜单高亮
-        document.querySelectorAll('.nav-list a').forEach(a => a.classList.remove('active'))
-        document.querySelector(`[data-href="${path}"]`)?.classList.add('active')
-    })
-})
+// 切换页面
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageId).classList.add('active');
+
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`[data-page="${pageId}"]`)?.classList.add('active');
+    history.pushState({}, '', pageId === 'home' ? '/' : '/' + pageId);
+}
+
+// 打开文章详情
+function showArticle(id) {
+    const art = articles.find(a => a.id === id);
+    document.getElementById('detail-title').innerText = art.title;
+    document.getElementById('detail-date').innerText = art.date;
+    document.getElementById('detail-content').innerHTML = art.content;
+
+    let btns = '';
+    if (art.fileUrl) {
+        btns += `<a href="${art.fileUrl}" target="_blank" class="read-more">查看原文PDF</a>`;
+    }
+    document.getElementById('detail-btns').innerHTML = btns;
+
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-article').classList.add('active');
+    history.pushState({}, '', '/article/' + id);
+}
+
+// 绑定所有按钮
+document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => showPage(btn.dataset.page));
+});
+
+document.querySelectorAll('[data-art-id]').forEach(btn => {
+    btn.addEventListener('click', () => showArticle(+btn.dataset.artId));
+});
+
+document.querySelectorAll('[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => showPage(btn.dataset.page));
+});
 </script>
 </body>
 </html>
