@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ms 的个人主页</title>
+    <title>Ms 个人主页</title>
     <style>
         /* 全局样式重置 */
         * {
@@ -211,19 +211,37 @@
         </ul>
 
         <!-- 个人信息卡片 -->
-        <div class="profile-card">
-            <div class="profile-avatar">
-                <!-- 替换成你的头像图片链接 -->
-                <img src="https://github.com/Meng-shuo/Meng-shuo.github.io/imgs/profile.png" alt="头像">
-            </div>
-            <div class="profile-name">Meng Shuo</div>
-            <div class="profile-stats">
-                <div class="stat-item">
-                    <div class="stat-label">邮箱</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">知乎</div>
-                </div>
+                        <style>
+                /* 小提示样式 */
+                .tooltip {
+                  position: relative;
+                  cursor: default;
+                }
+                .tooltip:hover::after {
+                  content: attr(data-text);
+                  position: absolute;
+                  bottom: 120%;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background: #333;
+                  color: #fff;
+                  padding: 4px 10px;
+                  border-radius: 4px;
+                  font-size: 0.8rem;
+                  white-space: nowrap;
+                  z-index: 10;
+                }
+                </style>
+
+                <div class="profile-stats">
+                    <div class="stat-item tooltip" data-text="E-mail->2418433006@qq.com">
+                        <div class="stat-label">E-mail</div>
+                    </div>
+                <div class="stat-item tooltip" data-text="https://www.zhihu.com/people/ai-mi-3-64-5">
+                        <a href="https://www.zhihu.com/people/ai-mi-3-64-5" target="_blank" style="text-decoration:none; color:inherit;">
+                            <div class="stat-label">知乎</div>
+                        </a>
+                 </div>
             </div>
         </div>
     </div>
@@ -238,9 +256,9 @@
         <!-- ====================== 文章卡片 1 ====================== -->
         <div class="post-card">
             <h2 class="post-title">本站介绍</h2>
-            <div class="post-meta">发表于 2026-04-11</div>
+            <div class="post-meta">2026-04-11</div>
             <div class="post-desc">
-                A simple introduction for this web.
+                A simple introduction to this web.
             </div>
             <div class="btn-container">
                 <a href="docs/你的文件名.pdf" target="_blank" class="read-more">阅读全文</a>
