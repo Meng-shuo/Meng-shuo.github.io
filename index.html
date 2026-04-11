@@ -66,6 +66,7 @@
             border-radius: 4px;
             transition: background 0.3s;
             font-size: 1.1rem;
+            cursor: pointer;
         }
 
         .nav-list a:hover, .nav-list a.active {
@@ -114,7 +115,7 @@
         .profile-stats {
             display: flex;
             justify-content: center;
-            gap: 32px;
+            gap: 50px;
             margin: 15px 0;
         }
 
@@ -133,7 +134,7 @@
             color: #888;
         }
 
-        /* 鼠标悬浮提示样式（统一放在head里，规范写法） */
+        /* 鼠标悬浮提示样式 */
         .tooltip {
             position: relative;
             cursor: default;
@@ -153,7 +154,7 @@
             z-index: 10;
         }
 
-        /* 右侧主内容区：统一上下排布 */
+        /* 右侧主内容区 */
         .content {
             flex: 1;
             padding: 30px;
@@ -162,7 +163,7 @@
             gap: 25px;
         }
 
-        /* 文章卡片：统一样式，避免冲突 */
+        /* 文章卡片 */
         .post-card {
             background: #fff;
             padding: 30px;
@@ -173,7 +174,6 @@
             gap: 16px;
         }
 
-        /* 文章标题 */
         .post-title {
             font-size: 1.8rem;
             font-weight: 600;
@@ -181,14 +181,12 @@
             text-align: center;
         }
 
-        /* 发布时间 */
         .post-meta {
             font-size: 1.1rem;
             color: #777;
             text-align: center;
         }
 
-        /* 文章介绍 */
         .post-desc {
             font-size: 1.2rem;
             line-height: 1.7;
@@ -196,13 +194,11 @@
             text-align: left;
         }
 
-        /* 阅读全文按钮容器：居中 */
         .btn-container {
             text-align: center;
             margin-top: 10px;
         }
 
-        /* 按钮样式：统一复用 */
         .read-more {
             display: inline-block;
             padding: 12px 24px;
@@ -212,37 +208,43 @@
             text-decoration: none;
             font-size: 1.1rem;
             transition: background 0.3s;
+            cursor: pointer;
         }
 
         .read-more:hover {
             background: #444;
+        }
+
+        /* 内容区域默认全部隐藏 */
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- 左侧导航栏 -->
     <div class="sidebar">
         <div class="title">Ms 的个人主页</div>
         <ul class="nav-list">
-            <li><a href="#" class="active">🏠 首页</a></li>
-            <li><a href="#">👤 关于</a></li>
+            <li><a data-href="/" class="active">🏠 首页</a></li>
+            <li><a data-href="/about">👤 关于</a></li>
         </ul>
 
-        <!-- 个人信息卡片（完整恢复，包含头像、名字、联系方式） -->
         <div class="profile-card">
-            <!-- 头像模块（恢复完整，替换成你的GitHub图片链接即可） -->
             <div class="profile-avatar">
                 <img src="https://github.com/Meng-shuo/Meng-shuo.github.io/blob/main/imgs/profile.png?raw=true" alt="头像">
             </div>
-            <!-- 名字模块（恢复完整） -->
             <div class="profile-name">Meng Shuo</div>
-            <!-- 联系方式模块（保留你的hover邮箱+知乎跳转功能） -->
             <div class="profile-stats">
                 <div class="stat-item tooltip" data-text="E-mail->2418433006@qq.com">
                     <a href="https://mail.qq.com" target="_blank" style="text-decoration:none; color:inherit;">
-                    <div class="stat-label">E-mail</div>
+                        <div class="stat-label">E-mail</div>
                     </a>
                 </div>
                 <div class="stat-item tooltip" data-text="zhihu->https://www.zhihu.com/people/ai-mi-3-64-5">
@@ -254,28 +256,67 @@
         </div>
     </div>
 
-    <!-- 右侧内容区（结构正确，文章卡片正常显示） -->
+    <!-- 内容区域 -->
     <div class="content">
-        <!-- ====================== 文章卡片模板 ======================
-             复制这一整块，就能新增一篇文章
-             只需要修改：标题、时间、介绍文字、PDF链接
-        -->
-
-        <!-- ====================== 文章卡片 1 ====================== -->
-        <div class="post-card">
-            <h2 class="post-title">本站介绍</h2>
-            <div class="post-meta">2026-04-11</div>
-            <div class="post-desc">
-                A simple introduction to this web.
-            </div>
-            <div class="btn-container">
-                <a href="docs/你的文件名.pdf" target="_blank" class="read-more">阅读全文</a>
+        <!-- 首页 -->
+        <div id="home" class="page active">
+            <div class="post-card">
+                <h2 class="post-title">本站介绍</h2>
+                <div class="post-meta">2026-04-11</div>
+                <div class="post-desc">
+                    A simple introduction to this web.
+                </div>
+                <div class="btn-container">
+                    <div class="read-more" data-href="/docs/intro">阅读全文</div>
+                </div>
             </div>
         </div>
-        <!-- ====================== 卡片 1 结束 ====================== -->
 
+        <!-- 关于 -->
+        <div id="about" class="page">
+            <div class="post-card">
+                <h2 class="post-title">关于我</h2>
+                <div class="post-desc" style="text-align:center;">
+                    这里是关于我的介绍<br>
+                    你可以随便写任何内容
+                </div>
+            </div>
+        </div>
+
+        <!-- 阅读全文 -->
+        <div id="docs-intro" class="page">
+            <div class="post-card">
+                <h2 class="post-title">本站介绍 - 全文</h2>
+                <div class="post-desc">
+                    这里是文章的完整内容<br>
+                    你可以放任意长的文字
+                </div>
+                <div class="btn-container">
+                    <div class="read-more" data-href="/home">返回首页</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
+<script>
+// 核心：点击切换页面 + 改网址不刷新
+document.querySelectorAll('[data-href]').forEach(el => {
+    el.addEventListener('click', () => {
+        const path = el.getAttribute('data-href')
+        history.pushState({}, '', path)
+
+        // 切换内容
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
+        if (path === '/') document.getElementById('home').classList.add('active')
+        if (path === '/about') document.getElementById('about').classList.add('active')
+        if (path === '/docs/intro') document.getElementById('docs-intro').classList.add('active')
+
+        // 菜单高亮
+        document.querySelectorAll('.nav-list a').forEach(a => a.classList.remove('active'))
+        document.querySelector(`[data-href="${path}"]`)?.classList.add('active')
+    })
+})
+</script>
 </body>
 </html>
