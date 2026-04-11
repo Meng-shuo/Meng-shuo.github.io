@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ====================== ✅ 标签页图标（你要的小图标） ====================== -->
+    <link rel="icon" href="https://github.com/Meng-shuo/Meng-shuo.github.io/raw/main/imgs/favicon.png" type="image/png">
+    
     <title>Ms 的个人主页</title>
     <style>
         * {
@@ -98,7 +102,7 @@
         .profile-stats {
             display: flex;
             justify-content: center;
-            gap: 60px;
+            gap: 50px;
             margin: 15px 0;
         }
 
@@ -232,30 +236,26 @@
     </div>
 
     <div class="content">
-        <!-- 首页 -->
         <div id="page-home" class="page active">
             <div id="article-list"></div>
         </div>
 
-        <!-- 关于 -->
         <div id="page-about" class="page">
             <div class="post-card">
                 <h2 class="post-title">关于我</h2>
                 <div class="post-desc" style="text-align:center">
-                     Meng Shuo<br>
-                    专业方向：导航、遥感、图像处理相关研究<br>
+                    Meng Shuo<br>
+                    专业方向：导航、遥感、图像处理相关研究
                 </div>
             </div>
         </div>
 
-        <!-- 文章详情 -->
         <div id="page-article" class="page">
             <div class="post-card">
                 <h2 class="post-title" id="detail-title"></h2>
                 <div class="post-meta" id="detail-date"></div>
                 <div class="post-desc" id="detail-content"></div>
-                <div class="btn-container" id="detail-btns">
-                </div>
+                <div class="btn-container" id="detail-btns"></div>
                 <div class="btn-container">
                     <div class="read-more" data-page="home">返回首页</div>
                 </div>
@@ -265,41 +265,25 @@
 </div>
 
 <script>
-// ==============================================
-//  🔥 以后所有文章 只在这里加！复制粘贴即可
-// ==============================================
 const articles = [
     {
         id: 1,
         title: "本站介绍",
         date: "2026-04-11",
         intro: "A simple introduction for this web.",
-        content: `
-            这里是本站的完整介绍。<br><br>
-            本网站用于展示个人学习与研究成果，包括导航、遥感图像处理、组合导航等方向的笔记与文档。
-        `,
-        // 想附加文章地址就写这里，不需要就删掉整行
+        content: `本网站用于展示个人学习与研究成果，包括导航、遥感图像处理、组合导航等方向的笔记与文档。`,
         fileUrl: "docs/intro.pdf"
     },
-    // ==========================================
-    // 👇 新增第二篇，直接复制下面这一块
-    // ==========================================
     {
         id: 2,
         title: "遥感图像处理实验",
         date: "2026-04-11",
         intro: "几何精校正、配准、融合等实验流程整理。",
-        content: `
-            本文记录遥感图像处理完整流程：<br>
-            1. 几何精校正与GCP选取<br>
-            2. 重采样方法对比（最近邻、双线性、三次卷积）<br>
-            3. 融合效果评价
-        `,
+        content: `本文记录遥感图像处理完整流程：<br>1. 几何精校正与GCP选取<br>2. 重采样方法对比<br>3. 融合效果评价`,
         fileUrl: "docs/rs_process.pdf"
     }
 ];
 
-// 生成首页文章列表
 const listEl = document.getElementById("article-list");
 articles.forEach(art => {
     listEl.innerHTML += `
@@ -314,35 +298,26 @@ articles.forEach(art => {
     `;
 });
 
-// 切换页面
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + pageId).classList.add('active');
-
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.querySelector(`[data-page="${pageId}"]`)?.classList.add('active');
     history.pushState({}, '', pageId === 'home' ? '/' : '/' + pageId);
 }
 
-// 打开文章详情
 function showArticle(id) {
     const art = articles.find(a => a.id === id);
     document.getElementById('detail-title').innerText = art.title;
     document.getElementById('detail-date').innerText = art.date;
     document.getElementById('detail-content').innerHTML = art.content;
-
-    let btns = '';
-    if (art.fileUrl) {
-        btns += `<a href="${art.fileUrl}" target="_blank" class="read-more">查看原文PDF</a>`;
-    }
+    let btns = art.fileUrl ? `<a href="${art.fileUrl}" target="_blank" class="read-more">查看原文PDF</a>` : '';
     document.getElementById('detail-btns').innerHTML = btns;
-
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-article').classList.add('active');
     history.pushState({}, '', '/article/' + id);
 }
 
-// 绑定所有按钮
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
 });
