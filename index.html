@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- ====================== ✅ 标签页图标（你要的小图标） ====================== -->
+    <!-- ====================== ✅ 标签页图标 ====================== -->
     <link rel="icon" href="https://github.com/Meng-shuo/Meng-shuo.github.io/raw/main/imgs/favicon.png" type="image/png">
     
     <title>Ms 的个人主页</title>
@@ -171,6 +171,12 @@
             color: #444;
         }
 
+        /* 正文内链接样式（和知乎一致，默认蓝色下划线） */
+        .post-desc a {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+
         .btn-container {
             text-align: center;
             margin-top: 10px;
@@ -218,7 +224,7 @@
         <div class="profile-card">
             <div class="profile-avatar">
                 <img src="https://github.com/Meng-shuo/Meng-shuo.github.io/blob/main/imgs/profile.png?raw=true" alt="头像">
-            </div>
+        </div>
             <div class="profile-name">Meng Shuo</div>
             <div class="profile-stats">
                 <div class="stat-item tooltip" data-text="E-mail->2418433006@qq.com">
@@ -255,7 +261,6 @@
                 <h2 class="post-title" id="detail-title"></h2>
                 <div class="post-meta" id="detail-date"></div>
                 <div class="post-desc" id="detail-content"></div>
-                <div class="btn-container" id="detail-btns"></div>
                 <div class="btn-container">
                     <div class="read-more" data-page="home">返回首页</div>
                 </div>
@@ -265,25 +270,48 @@
 </div>
 
 <script>
+// ==============================================
+// 🔥 以后所有文章 只在这里改！复制粘贴即可
+// ==============================================
 const articles = [
     {
         id: 1,
         title: "本站介绍",
         date: "2026-04-11",
         intro: "A simple introduction for this web.",
-        content: `本网站用于展示个人学习与研究成果，包括导航、遥感图像处理、组合导航等方向的笔记与文档。`,
-        fileUrl: "docs/intro.pdf"
+        // 👇 点击阅读全文后显示的完整内容，直接在这里写
+        content: `
+            这是关于分析力学的一份讲义. 写这份讲义的目的是对费曼学习法的实践. 当然, 在巩固和深化理解的同时, 这份讲义也有一些新的结构和内容.<br><br>
+            这份讲义与通常的分析力学讲义不同, 不从牛顿力学过渡到Lagrange力学再过渡到Hamilton力学, 而是从态矢量和相空间讲起, 给出分析力学的基本方法和思路. 随后直接讲解相空间中Hamilton力学的理论结构, 最后再过渡到位形空间的Lagrange力学. 在讲完Hamilton力学和Lagrange力学的基本框架之后, 再分别用这两套方法讨论对称性和守恒量的关系, 有助于对这两套语言进行对比, 并深入理解对称性与守恒量的关系. 最后, 利用分析力学的语言简单讲解中心力场, 微振动和刚体以及连续体系的分析力学. 通过这套讲法, 有助于建立起不局限于力学的现代的分析力学的理论框架, 并且采用假设-理论-实验验证的思路讲解, 可以很好地过渡到电动力学, 统计力学和量子力学.<br><br>
+            这份讲义其实没有什么特定的受众, 因为主要动机是写给自己的. 但是, 这份讲义或许对想要提纲挈领地了解分析力学的读者有帮助: 理论内容完整, 但对于一些技术没有进行介绍(例如微扰法等内容), 换来了较短的篇幅. 内容更丰富的讲义推荐高显教老师的《经典力学》或者李岩松老师的《分析力学讲义》, 如果读者对分析力学中更深入的数学结构有兴趣, 推荐陈童老师的《经典力学新讲》. 陈童老师的讲义可以在他的网站上免费获取.<br><br>
+            <strong>更新</strong><br>
+            <ul>
+                <li>2025.1.20: 第一版. 只包含理论部分. 后续会更新应用部分和数学附录.</li>
+                <li>2025.3.1: 第二版. 更新了分析力学的应用章节和变分法的数学附录. 这份讲义的主要内容已经完成. 后期的更新将会是增添例子或者修改错误.
+                    <ul>
+                        <li>2025.3.5 更新: 修改了一些错误.</li>
+                    </ul>
+                </li>
+            </ul><br>
+            <strong>讲义链接</strong>: <a href="docs/A.M.LectNote.pdf" target="_blank">A.M.LectNote.pdf</a>
+        `
     },
     {
         id: 2,
         title: "遥感图像处理实验",
         date: "2026-04-11",
         intro: "几何精校正、配准、融合等实验流程整理。",
-        content: `本文记录遥感图像处理完整流程：<br>1. 几何精校正与GCP选取<br>2. 重采样方法对比<br>3. 融合效果评价`,
-        fileUrl: "docs/rs_process.pdf"
+        content: `
+            本文记录遥感图像处理完整流程：<br>
+            1. 几何精校正与GCP选取<br>
+            2. 重采样方法对比（最近邻、双线性、三次卷积）<br>
+            3. 融合效果评价<br><br>
+            <strong>实验报告链接</strong>: <a href="docs/rs_process.pdf" target="_blank">遥感图像处理实验报告.pdf</a>
+        `
     }
 ];
 
+// 生成首页文章列表
 const listEl = document.getElementById("article-list");
 articles.forEach(art => {
     listEl.innerHTML += `
@@ -298,6 +326,7 @@ articles.forEach(art => {
     `;
 });
 
+// 切换页面
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + pageId).classList.add('active');
@@ -306,18 +335,19 @@ function showPage(pageId) {
     history.pushState({}, '', pageId === 'home' ? '/' : '/' + pageId);
 }
 
+// 打开文章详情
 function showArticle(id) {
     const art = articles.find(a => a.id === id);
     document.getElementById('detail-title').innerText = art.title;
     document.getElementById('detail-date').innerText = art.date;
     document.getElementById('detail-content').innerHTML = art.content;
-    let btns = art.fileUrl ? `<a href="${art.fileUrl}" target="_blank" class="read-more">查看原文PDF</a>` : '';
-    document.getElementById('detail-btns').innerHTML = btns;
+
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-article').classList.add('active');
     history.pushState({}, '', '/article/' + id);
 }
 
+// 绑定所有按钮
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => showPage(btn.dataset.page));
 });
